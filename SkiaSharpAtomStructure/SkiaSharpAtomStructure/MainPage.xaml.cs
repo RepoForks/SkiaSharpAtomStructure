@@ -57,56 +57,111 @@ namespace SkiaSharpAtomStructure
             skCanvas.Clear();
 
             skCanvas.Translate((float)skCanvasWidth / 2, (float)skCanvasHeight / 2);
-
             
+            using (SKPaint paintCenter = new SKPaint())
+            {
+                paintCenter.Style = SKPaintStyle.Fill;
+                paintCenter.Color = SKColors.Black;
+                paintCenter.IsDither = true;
+                skCanvas.DrawCircle(0, 0, 45, paintCenter);
+            }
 
-            SKPaint skpaintWhiteStroke = new SKPaint()
+            SKPaint paintStaticElectronOrbit = new SKPaint
             {
                 Style = SKPaintStyle.Stroke,
-                Color = SKColors.Red,
-                StrokeWidth = 10,
                 IsAntialias = true,
-                StrokeCap = SKStrokeCap.Round
+                StrokeWidth = 5,
+                Color = SKColors.Black,
             };
 
-            SKRect skRectangle = new SKRect();
-            skRectangle.Size = new SKSize(300, 500);
-            skRectangle.Location = new SKPoint(-150, -250);
+            Random rand = new Random();
+            int electronsCount = 4; //rand.Next(1, 50);
+            float orbitAngleDegree = 180 / (float)electronsCount;
+            for (double degrees = 0; degrees < (180); degrees += orbitAngleDegree)
+            {
+                var arcRectWidth = 350;
+                var arcRectHeight = 100;
 
-            var _sweepAngle = 0 * t + 360 * (1 - t);
+                skCanvas.DrawOval(0, 0, arcRectWidth, arcRectHeight, paintStaticElectronOrbit);
 
-            float startAngle = _sweepAngle;
-            float sweepAngle = 5; // (75 / 100) * 360
 
-            SKPath skPath = new SKPath();
-            skPath.AddArc(skRectangle, startAngle, sweepAngle);
-            skCanvas.DrawPath(skPath, skpaintWhiteStroke);
+                SKPaint paintElectron = new SKPaint()
+                {
+                    Style = SKPaintStyle.Stroke,
+                    Color = SKColors.Black,
+                    IsAntialias = true,
+                    StrokeCap = SKStrokeCap.Round,
+                    StrokeWidth = 15,
+                };
 
-            // paint orbit
-            skpaintWhiteStroke.Color = SKColors.OrangeRed.WithAlpha(128);
-            skpaintWhiteStroke.StrokeWidth = 5;
-            skPath.AddArc(skRectangle, 0, 360);
-            skCanvas.DrawPath(skPath, skpaintWhiteStroke);
-            
-            //SKPaint paint = new SKPaint
+                SKRect paintMovingElectronOrbit = new SKRect();
+                paintMovingElectronOrbit.Size = new SKSize((arcRectWidth * 2), (arcRectHeight * 2));
+                paintMovingElectronOrbit.Location = new SKPoint(-(arcRectWidth * 2 / 2), -(arcRectHeight * 2 / 2));
+
+                var _sweepAngle = 0 * t + 360 * (1 - t);
+
+                float electronDrawStartPoint = _sweepAngle;
+                float electronDrawSize = 1; // (75 / 100) * 360
+
+                SKPath pathMovingElectronOrbit = new SKPath();
+                pathMovingElectronOrbit.AddArc(paintMovingElectronOrbit, electronDrawStartPoint, electronDrawSize);
+                skCanvas.DrawPath(pathMovingElectronOrbit, paintElectron);
+
+
+
+
+                if (degrees == 0 && electronsCount % 2 == 0)
+                {
+                    skCanvas.RotateDegrees((float)orbitAngleDegree);
+                }
+                else
+                {
+                    skCanvas.RotateDegrees((float)orbitAngleDegree + 180);
+                }
+
+            }
+
+
+
+
+
+            //for (int i = 0; i < 5; i++)
             //{
-            //    Style = SKPaintStyle.Stroke
-            //};
+            //    SKPaint skpaint = new SKPaint()
+            //    {
+            //        Style = SKPaintStyle.Stroke,
+            //        Color = SKColors.Red,
+            //        StrokeWidth = 10,
+            //        IsAntialias = true,
+            //        StrokeCap = SKStrokeCap.Round
+            //    };
 
-            //SKPoint center = new SKPoint(0,0);
-            //float baseRadius = Math.Min(skCanvasWidth, skCanvasHeight) / 12;
+            //    var arcRectWidth = 350;
+            //    var arcRectHeight = 100;
 
-            //for (int circle = 0; circle < 5; circle++)
-            //{
-            //    float radius = baseRadius * (circle + t);
+            //    SKRect skRectangle = new SKRect();
+            //    skRectangle.Size = new SKSize(arcRectWidth, arcRectHeight);
+            //    skRectangle.Location = new SKPoint(-(arcRectWidth / 2), -(arcRectHeight / 2));
 
-            //    paint.StrokeWidth = baseRadius / 2 * (circle == 0 ? t : 1);
-            //    paint.Color = new SKColor(0, 0, 255,
-            //        (byte)(255 * (circle == 4 ? (1 - t) : 1)));
+            //    var _sweepAngle = 0 * t + 360 * (1 - t);
 
-            //    skCanvas.DrawCircle(center.X, center.Y, radius, paint);
+            //    float startAngle = _sweepAngle;
+            //    float sweepAngle = 5; // (75 / 100) * 360
+
+            //    SKPath skPath = new SKPath();
+            //    skPath.AddArc(skRectangle, startAngle, sweepAngle);
+            //    skCanvas.DrawPath(skPath, skpaint);
+
+            //    // paint orbit
+            //    skpaint.Color = SKColors.OrangeRed.WithAlpha(128);
+            //    skpaint.StrokeWidth = 5;
+            //    skPath.AddArc(skRectangle, 0, 360);
+            //    skCanvas.DrawPath(skPath, skpaint);
+
+            //    skCanvas.RotateDegrees((float)60);
             //}
 
+            
         }
     }
 }
