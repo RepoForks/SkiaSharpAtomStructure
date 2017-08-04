@@ -13,7 +13,7 @@ namespace SkiaSharpAtomStructure
         {
             InitializeComponent();
 
-            MainPage = new SkiaSharpAtomStructure.MainPage();
+            MainPage = new SkiaSharpAtomStructure.AtomAnimatedPage();
         }
 
         protected override void OnStart()
