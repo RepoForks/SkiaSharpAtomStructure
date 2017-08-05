@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:SkiaSharpAtomStructure"
              x:Class="SkiaSharpAtomStructure.MainPage"
+             NavigationPage.HasNavigationBar="False"
              xmlns:skia="clr-namespace:SkiaSharp.Views.Forms;assembly=SkiaSharp.Views.Forms">
 
     <StackLayout Padding="10,20,10,10">

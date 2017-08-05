@@ -20,17 +20,17 @@ namespace SkiaSharpAtomStructure
 
         private void AtomSilhouettePageButton_Clicked(object sender, EventArgs e)
         {
-
+            Navigation.PushAsync(new AtomSilhouettePage());
         }
 
         private void AtomOrbitalPathsPageButton_Clicked(object sender, EventArgs e)
         {
-
+            Navigation.PushAsync(new AtomOrbitalPathsPage());
         }
 
         private void AtomAnimatedPageButton_Clicked(object sender, EventArgs e)
         {
-
+            Navigation.PushAsync(new AtomAnimatedPage());
         }
     }
 }
