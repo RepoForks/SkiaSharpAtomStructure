@@ -14,47 +14,24 @@ namespace SkiaSharpAtomStructure
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class AtomAnimatedPage : ContentPage
     {
-        const double cycleTime = 2000;       // in milliseconds
-
-        List<double> cycleTimes;
-
         Stopwatch stopwatch = new Stopwatch();
         bool pageIsActive;
-        float t;
         
-        List<float> ts;
-
-
-        bool isElectronsInit = false;
+        List<MovingElectronObject> _movingElectronObjects = new List<MovingElectronObject>();
 
         public AtomAnimatedPage()
         {
             InitializeComponent();
 
             Random rand = new Random();
-            cycleTimes = new List<double>()
+            for (int i = 0; i < 8; i++) //rand.Next(1, 50)
             {
-                rand.Next(1000,2000),
-                rand.Next(1000,2000),
-                rand.Next(1000,2000),
-                rand.Next(1000,2000),
-                rand.Next(1000,2000),
-                rand.Next(1000,2000),
-                rand.Next(1000,2000),
-                rand.Next(1000,2000),
-            };
-
-            ts = new List<float>
-            {
-                0,
-                0,
-                0,
-                0,
-                0,
-                0,
-                0,
-                0
-            };
+                _movingElectronObjects.Add(new MovingElectronObject()
+                {
+                    OrbitCycleTime = rand.Next(1000, 2000),
+                    TimeAtPointInOrbit = 0,
+                });
+            }
         }
 
         protected override void OnAppearing()
@@ -65,15 +42,12 @@ namespace SkiaSharpAtomStructure
 
             Device.StartTimer(TimeSpan.FromMilliseconds(33), () =>
             {
-                t = (float)(stopwatch.Elapsed.TotalMilliseconds % cycleTime / cycleTime);
-
-                for (int i = 0; i < ts.Count; i++)
+                for (int i = 0; i < _movingElectronObjects.Count; i++)
                 {
-                    ts[i] = (float)(stopwatch.Elapsed.TotalMilliseconds % cycleTimes[i] / cycleTimes[i]);
+                    _movingElectronObjects[i].TimeAtPointInOrbit = (float)(stopwatch.Elapsed.TotalMilliseconds % _movingElectronObjects[i].OrbitCycleTime / _movingElectronObjects[i].OrbitCycleTime);
                 }
 
                 CanvasView.InvalidateSurface();
-                isElectronsInit = true;
                 if (!pageIsActive)
                 {
                     stopwatch.Stop();
@@ -82,7 +56,13 @@ namespace SkiaSharpAtomStructure
                 return pageIsActive;
             });
         }
-        
+
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+            pageIsActive = false;
+        }
+
         private void SKCanvasView_PaintSurface(object sender, SkiaSharp.Views.Forms.SKPaintSurfaceEventArgs e)
         {
             var skImageInfo = e.Info;
@@ -95,13 +75,13 @@ namespace SkiaSharpAtomStructure
             skCanvas.Clear();
 
             skCanvas.Translate((float)skCanvasWidth / 2, (float)skCanvasHeight / 2);
-
+            
             using (SKPaint paintCenter = new SKPaint())
             {
                 paintCenter.Style = SKPaintStyle.Fill;
                 paintCenter.Color = SKColors.Black;
                 paintCenter.IsDither = true;
-                skCanvas.DrawCircle(0, 0, 45, paintCenter);
+                skCanvas.DrawCircle(0, 0, skCanvasWidth / 17f, paintCenter); // 45
             }
 
             SKPaint paintStaticElectronOrbit = new SKPaint
@@ -113,13 +93,11 @@ namespace SkiaSharpAtomStructure
             };
 
             Random rand = new Random();
-            int electronsCount = 8; //rand.Next(1, 50);
-            float orbitAngleDegree = 180 / (float)electronsCount;
-            int x = 0;
-            for (double degrees = 0; degrees < (180); degrees += orbitAngleDegree)
+            float orbitAngleDegree = 180 / (float)_movingElectronObjects.Count;
+            for (int i = 0; i < _movingElectronObjects.Count; i++)
             {
-                var arcRectWidth = 350;
-                var arcRectHeight = 100;
+                var arcRectWidth = skCanvasWidth / 2.2f; //350
+                var arcRectHeight = skCanvasHeight / 11.3f; //100
 
                 skCanvas.DrawOval(0, 0, arcRectWidth, arcRectHeight, paintStaticElectronOrbit);
 
@@ -139,7 +117,7 @@ namespace SkiaSharpAtomStructure
 
                 float electronDrawStartPoint = 0;
                 
-                var _sweepAngle = 0 * ts[x] + 360 * (1 - ts[x]);
+                var _sweepAngle = 0 * _movingElectronObjects[i].TimeAtPointInOrbit + 360 * (1 - _movingElectronObjects[i].TimeAtPointInOrbit);
                 electronDrawStartPoint = _sweepAngle;
 
                 float electronDrawSize = 1; // (75 / 100) * 360
@@ -149,7 +127,7 @@ namespace SkiaSharpAtomStructure
                 skCanvas.DrawPath(pathMovingElectronOrbit, paintElectron);
 
                 
-                if (degrees == 0 && electronsCount % 2 == 0)
+                if (i == 0 || _movingElectronObjects.Count % 2 == 0)
                 {
                     skCanvas.RotateDegrees((float)orbitAngleDegree);
                 }
@@ -157,9 +135,20 @@ namespace SkiaSharpAtomStructure
                 {
                     skCanvas.RotateDegrees((float)orbitAngleDegree + 180);
                 }
-
-                x++;
             }
         }
+    }
+
+    public class MovingElectronObject
+    {
+        /// <summary>
+        /// Electron Orbit's 1 cycle's time in Milliseconds
+        /// </summary>
+        public double OrbitCycleTime { get; set; }
+
+        /// <summary>
+        /// Time At given Point in Orbit
+        /// </summary>
+        public float TimeAtPointInOrbit { get; set; }
     }
 }
