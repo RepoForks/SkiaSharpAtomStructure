@@ -5,6 +5,7 @@
              NavigationPage.HasNavigationBar="False"
              xmlns:skia="clr-namespace:SkiaSharp.Views.Forms;assembly=SkiaSharp.Views.Forms">
 
-    <skia:SKCanvasView PaintSurface="SKCanvasView_PaintSurface" x:Name="CanvasView"/>
-
+    <skia:SKCanvasView PaintSurface="SKCanvasView_PaintSurface" x:Name="CanvasView"
+                           EnableTouchEvents="True" Touch="CanvasView_Touch"/>
+    
 </ContentPage>

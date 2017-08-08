@@ -17,14 +17,24 @@ namespace SkiaSharpAtomStructure
         Stopwatch stopwatch = new Stopwatch();
         bool pageIsActive;
         
+        private int ElectronsCount { get; set; }
+        
         List<MovingElectronObject> _movingElectronObjects = new List<MovingElectronObject>();
 
         public AtomAnimatedPage()
         {
             InitializeComponent();
 
+            ElectronsCount = 6;
+            InitAtom();
+        }
+
+        private void InitAtom()
+        {
             Random rand = new Random();
-            for (int i = 0; i < 8; i++) //rand.Next(1, 50)
+            _movingElectronObjects = new List<MovingElectronObject>();
+
+            for (int i = 0; i < ElectronsCount; i++) //rand.Next(1, 50)
             {
                 _movingElectronObjects.Add(new MovingElectronObject()
                 {
@@ -34,9 +44,8 @@ namespace SkiaSharpAtomStructure
             }
         }
 
-        protected override void OnAppearing()
+        private void InitAnimation()
         {
-            base.OnAppearing();
             pageIsActive = true;
             stopwatch.Start();
 
@@ -55,6 +64,12 @@ namespace SkiaSharpAtomStructure
 
                 return pageIsActive;
             });
+        }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            InitAnimation();
         }
 
         protected override void OnDisappearing()
@@ -116,7 +131,7 @@ namespace SkiaSharpAtomStructure
                 paintMovingElectronOrbit.Location = new SKPoint(-(arcRectWidth * 2 / 2), -(arcRectHeight * 2 / 2));
 
                 float electronDrawStartPoint = 0;
-                
+
                 var _sweepAngle = 0 * _movingElectronObjects[i].TimeAtPointInOrbit + 360 * (1 - _movingElectronObjects[i].TimeAtPointInOrbit);
                 electronDrawStartPoint = _sweepAngle;
 
@@ -126,7 +141,7 @@ namespace SkiaSharpAtomStructure
                 pathMovingElectronOrbit.AddArc(paintMovingElectronOrbit, electronDrawStartPoint, electronDrawSize);
                 skCanvas.DrawPath(pathMovingElectronOrbit, paintElectron);
 
-                
+
                 if (i == 0 || _movingElectronObjects.Count % 2 == 0)
                 {
                     skCanvas.RotateDegrees((float)orbitAngleDegree);
@@ -135,6 +150,44 @@ namespace SkiaSharpAtomStructure
                 {
                     skCanvas.RotateDegrees((float)orbitAngleDegree + 180);
                 }
+            }
+        }
+
+        private SKPoint _lastTouchPoint = new SKPoint();
+        private async void CanvasView_Touch(object sender, SkiaSharp.Views.Forms.SKTouchEventArgs e)
+        {
+            if (e.ActionType == SkiaSharp.Views.Forms.SKTouchAction.Pressed)
+            {
+                _lastTouchPoint = e.Location;
+                e.Handled = true;
+            }
+            else if (e.ActionType == SkiaSharp.Views.Forms.SKTouchAction.Moved)
+            {
+                if (_lastTouchPoint.Y < e.Location.Y)
+                {
+                    // swipe down
+
+                    if (ElectronsCount == 1)
+                        return;
+
+                    pageIsActive = false;
+                    ElectronsCount--;
+                    InitAtom();
+                    InitAnimation();
+                }
+                else if (_lastTouchPoint.Y > e.Location.Y)
+                {
+                    // swipe up
+
+                    pageIsActive = false;
+                    await Task.Delay(TimeSpan.FromMilliseconds(33));
+
+                    ElectronsCount++;
+                    InitAtom();
+                    InitAnimation();
+                }
+
+                _lastTouchPoint = e.Location;
             }
         }
     }
