@@ -143,7 +143,7 @@ namespace SkiaSharpAtomStructure
                 skCanvas.DrawPath(pathMovingElectronOrbit, paintElectron);
 
 
-                if (i == 0 || _movingElectronObjects.Count % 2 == 0)
+                if (i == 0 && _movingElectronObjects.Count % 2 == 0)
                 {
                     skCanvas.RotateDegrees((float)orbitAngleDegree);
                 }
