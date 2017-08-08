@@ -41,8 +41,8 @@
     <Compile Include="AtomAnimatedPage.xaml.cs">
       <DependentUpon>AtomAnimatedPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="AtomUnevenOrbitalPathsPage.xaml.cs">
-      <DependentUpon>AtomUnevenOrbitalPathsPage.xaml</DependentUpon>
+    <Compile Include="AtomOrbitalPathsUnevenPage.xaml.cs">
+      <DependentUpon>AtomOrbitalPathsUnevenPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
@@ -113,7 +113,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="AtomUnevenOrbitalPathsPage.xaml">
+    <EmbeddedResource Include="AtomOrbitalPathsUnevenPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>

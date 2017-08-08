@@ -10,9 +10,9 @@ using Xamarin.Forms.Xaml;
 namespace SkiaSharpAtomStructure
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class AtomUnevenOrbitalPathsPage : ContentPage
+    public partial class AtomOrbitalPathsUnevenPage : ContentPage
     {
-        public AtomUnevenOrbitalPathsPage()
+        public AtomOrbitalPathsUnevenPage()
         {
             InitializeComponent();
         }

@@ -26,6 +26,7 @@ namespace SkiaSharpAtomStructure
             InitializeComponent();
 
             ElectronsCount = 6;
+            LabelElectronsCount.Text = $" Electrons: {ElectronsCount}";
             InitAtom();
         }
 
@@ -153,6 +154,8 @@ namespace SkiaSharpAtomStructure
             }
         }
 
+
+
         private SKPoint _lastTouchPoint = new SKPoint();
         private async void CanvasView_Touch(object sender, SkiaSharp.Views.Forms.SKTouchEventArgs e)
         {
@@ -188,7 +191,34 @@ namespace SkiaSharpAtomStructure
                 }
 
                 _lastTouchPoint = e.Location;
+
+                LabelElectronsCount.Text = $" Electrons: {ElectronsCount}";
             }
+        }
+
+        private async void PlusOrMinusButtons_Clicked(object sender, EventArgs e)
+        {
+            if (((Button)(sender)).Text == "+")
+            {
+                pageIsActive = false;
+                await Task.Delay(TimeSpan.FromMilliseconds(33));
+
+                ElectronsCount++;
+                InitAtom();
+                InitAnimation();
+            }
+            else if (((Button)(sender)).Text == "-")
+            {
+                if (ElectronsCount == 1)
+                    return;
+
+                pageIsActive = false;
+                ElectronsCount--;
+                InitAtom();
+                InitAnimation();
+            }
+
+            LabelElectronsCount.Text = $" Electrons: {ElectronsCount}";
         }
     }
 

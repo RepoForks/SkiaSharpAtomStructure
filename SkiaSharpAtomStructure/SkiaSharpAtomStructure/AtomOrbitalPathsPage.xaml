@@ -5,6 +5,37 @@
              NavigationPage.HasNavigationBar="False"
              xmlns:skia="clr-namespace:SkiaSharp.Views.Forms;assembly=SkiaSharp.Views.Forms">
 
-    <skia:SKCanvasView PaintSurface="SKCanvasView_PaintSurface" x:Name="CanvasView" />
+
+    <Grid >
+
+        <Button Text="+" Grid.Row="0" Grid.Column="0" 
+                TextColor="White"
+                FontSize="Medium"
+                BackgroundColor="#999999"
+                Clicked="PlusOrMinusButtons_Clicked"/>
+        <Label Text="" FontSize="Medium"
+               x:Name="LabelElectronsCount"
+               HorizontalTextAlignment="Center" 
+               VerticalTextAlignment="Center"
+               Grid.Row="0" Grid.Column="1"/>
+        <Button Text="-" Grid.Row="0" Grid.Column="2"
+                TextColor="White"
+                FontSize="Medium"
+                BackgroundColor="#999999"
+                Clicked="PlusOrMinusButtons_Clicked"/>
+
+        <skia:SKCanvasView PaintSurface="SKCanvasView_PaintSurface" x:Name="CanvasView"
+                           Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"/>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+    </Grid>
 
 </ContentPage>
