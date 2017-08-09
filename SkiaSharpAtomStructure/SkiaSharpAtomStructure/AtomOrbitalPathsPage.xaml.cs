@@ -20,7 +20,7 @@ namespace SkiaSharpAtomStructure
             InitializeComponent();
 
             ElectronsCount = 6;
-            LabelElectronsCount.Text = $" Electrons: {ElectronsCount}";
+            LabelElectronsCount.Text = $"Electrons: {ElectronsCount}";
         }
 
         private void SKCanvasView_PaintSurface(object sender, SkiaSharp.Views.Forms.SKPaintSurfaceEventArgs e)
@@ -41,7 +41,7 @@ namespace SkiaSharpAtomStructure
                 paintCenter.Style = SKPaintStyle.Fill;
                 paintCenter.Color = SKColors.Black;
                 paintCenter.IsDither = true;
-                skCanvas.DrawCircle(0, 0, 45, paintCenter);
+                skCanvas.DrawCircle(0, 0, skCanvasWidth / 17f, paintCenter); // 45
             }
 
             SKPaint paintOrbit = new SKPaint
@@ -56,13 +56,12 @@ namespace SkiaSharpAtomStructure
             {
                 paintOrbit.Shader = shader;
             }
-
-            Random rand = new Random();
+            
             float orbitAngleDegree = 180 / (float)ElectronsCount;
             for (double degrees = 0; degrees < (180); degrees += orbitAngleDegree)
             {
-                var arcRectWidth = 350;
-                var arcRectHeight = 100;
+                var arcRectWidth = skCanvasWidth / 2.2f; //350
+                var arcRectHeight = skCanvasHeight / 11.3f; //100
 
                 skCanvas.DrawOval(0, 0, arcRectWidth, arcRectHeight, paintOrbit);
 

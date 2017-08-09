@@ -13,23 +13,14 @@ namespace SkiaSharpAtomStructure
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class AtomSilhouettePage : ContentPage
     {
+        private int ElectronsCount { get; set; }
+
         public AtomSilhouettePage()
         {
             InitializeComponent();
-        }
 
-        protected override void OnAppearing()
-        {
-            base.OnAppearing();
-
-            // loop through random atom structures
-            Device.StartTimer(TimeSpan.FromSeconds(2),
-                () =>
-                {
-                    CanvasView.InvalidateSurface();
-
-                    return true;
-                });
+            ElectronsCount = 6;
+            LabelElectronsCount.Text = $"Electrons: {ElectronsCount}";
         }
 
         private void SKCanvasView_PaintSurface(object sender, SkiaSharp.Views.Forms.SKPaintSurfaceEventArgs e)
@@ -50,7 +41,7 @@ namespace SkiaSharpAtomStructure
                 paintCenter.Style = SKPaintStyle.Fill;
                 paintCenter.Color = SKColors.Black;
                 paintCenter.IsDither = true;
-                skCanvas.DrawCircle(0, 0, 45, paintCenter);
+                skCanvas.DrawCircle(0, 0, skCanvasWidth / 17f, paintCenter); // 45
             }
 
             SKPaint paintOrbit = new SKPaint
@@ -60,10 +51,8 @@ namespace SkiaSharpAtomStructure
                 StrokeWidth = 5,
                 Color = SKColors.Black,
             };
-
-            Random rand = new Random();
-            int electronsCount = rand.Next(1, 50);
-            float orbitAngleDegree = 180 / (float)electronsCount;
+            
+            float orbitAngleDegree = 180 / (float)ElectronsCount;
             for (double degrees = 0; degrees < (180); degrees += orbitAngleDegree)
             {
                 var arcRectWidth = 350;
@@ -79,7 +68,7 @@ namespace SkiaSharpAtomStructure
                     skCanvas.DrawCircle(arcRectWidth, 0, 10, paintElectron);
                 }
 
-                if (degrees == 0 && electronsCount % 2 == 0)
+                if (degrees == 0 && ElectronsCount % 2 == 0)
                 {
                     skCanvas.RotateDegrees((float)orbitAngleDegree);
                 }
@@ -88,6 +77,25 @@ namespace SkiaSharpAtomStructure
                     skCanvas.RotateDegrees((float)orbitAngleDegree + 180);
                 }
             }
+        }
+
+        private void PlusOrMinusButtons_Clicked(object sender, EventArgs e)
+        {
+            if (((Button)(sender)).Text == "+")
+            {
+                ElectronsCount++;
+            }
+            else if (((Button)(sender)).Text == "-")
+            {
+                if (ElectronsCount == 1)
+                    return;
+
+                ElectronsCount--;
+            }
+
+            LabelElectronsCount.Text = $" Electrons: {ElectronsCount}";
+
+            CanvasView.InvalidateSurface();
         }
     }
 }

@@ -26,7 +26,7 @@ namespace SkiaSharpAtomStructure
             InitializeComponent();
 
             ElectronsCount = 6;
-            LabelElectronsCount.Text = $" Electrons: {ElectronsCount}";
+            LabelElectronsCount.Text = $"Electrons: {ElectronsCount}";
             InitAtom();
         }
 

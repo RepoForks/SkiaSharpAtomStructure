@@ -28,6 +28,11 @@ namespace SkiaSharpAtomStructure
             Navigation.PushAsync(new AtomOrbitalPathsPage());
         }
 
+        private void AtomOrbitalPathsUnevenPageButton_Clicked(object sender, EventArgs e)
+        {
+            Navigation.PushAsync(new AtomOrbitalPathsUnevenPage());
+        }
+
         private void AtomAnimatedPageButton_Clicked(object sender, EventArgs e)
         {
             Navigation.PushAsync(new AtomAnimatedPage());
