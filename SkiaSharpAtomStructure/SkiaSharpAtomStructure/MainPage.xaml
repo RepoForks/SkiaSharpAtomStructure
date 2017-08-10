@@ -1,10 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local="clr-namespace:SkiaSharpAtomStructure"
-             x:Class="SkiaSharpAtomStructure.MainPage"
-             NavigationPage.HasNavigationBar="False"
-             xmlns:skia="clr-namespace:SkiaSharp.Views.Forms;assembly=SkiaSharp.Views.Forms">
+<ContentPage
+    x:Class="SkiaSharpAtomStructure.MainPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:SkiaSharpAtomStructure"
+    xmlns:skia="clr-namespace:SkiaSharp.Views.Forms;assembly=SkiaSharp.Views.Forms"
+    NavigationPage.HasNavigationBar="False">
 
     <StackLayout Padding="10,20,10,10">
         <Label
@@ -37,7 +38,7 @@
             HorizontalOptions="FillAndExpand"
             Text="Atom OrbitalPaths Uneven"
             TextColor="White" />
-        
+
         <Button
             x:Name="AtomAnimatedPageButton"
             BackgroundColor="DodgerBlue"

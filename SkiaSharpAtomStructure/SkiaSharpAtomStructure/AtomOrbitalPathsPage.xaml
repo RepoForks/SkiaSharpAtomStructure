@@ -1,31 +1,49 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="SkiaSharpAtomStructure.AtomOrbitalPathsPage"
-             NavigationPage.HasNavigationBar="False"
-             xmlns:skia="clr-namespace:SkiaSharp.Views.Forms;assembly=SkiaSharp.Views.Forms">
+<ContentPage
+    x:Class="SkiaSharpAtomStructure.AtomOrbitalPathsPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:skia="clr-namespace:SkiaSharp.Views.Forms;assembly=SkiaSharp.Views.Forms"
+    Title="Atom OrbitalPaths"
+    NavigationPage.HasNavigationBar="True">
 
 
-    <Grid >
+    <Grid>
 
-        <Button Text="+" Grid.Row="0" Grid.Column="0" 
-                TextColor="White"
-                FontSize="Medium"
-                BackgroundColor="#999999"
-                Clicked="PlusOrMinusButtons_Clicked"/>
-        <Label Text="" FontSize="Medium"
-               x:Name="LabelElectronsCount"
-               HorizontalTextAlignment="Center" 
-               VerticalTextAlignment="Center"
-               Grid.Row="0" Grid.Column="1"/>
-        <Button Text="-" Grid.Row="0" Grid.Column="2"
-                TextColor="White"
-                FontSize="Medium"
-                BackgroundColor="#999999"
-                Clicked="PlusOrMinusButtons_Clicked"/>
+        <Button
+            Grid.Row="0"
+            Grid.Column="0"
+            Margin="10,10,0,0"
+            BackgroundColor="#999999"
+            Clicked="PlusOrMinusButtons_Clicked"
+            FontSize="Medium"
+            Text="+"
+            TextColor="White" />
+        <Label
+            x:Name="LabelElectronsCount"
+            Grid.Row="0"
+            Grid.Column="1"
+            Margin="0,10,0,10"
+            FontSize="Medium"
+            HorizontalTextAlignment="Center"
+            Text=""
+            VerticalTextAlignment="Center" />
+        <Button
+            Grid.Row="0"
+            Grid.Column="2"
+            Margin="0,10,10,0"
+            BackgroundColor="#999999"
+            Clicked="PlusOrMinusButtons_Clicked"
+            FontSize="Medium"
+            Text="-"
+            TextColor="White" />
 
-        <skia:SKCanvasView PaintSurface="SKCanvasView_PaintSurface" x:Name="CanvasView"
-                           Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"/>
+        <skia:SKCanvasView
+            x:Name="CanvasView"
+            Grid.Row="1"
+            Grid.Column="0"
+            Grid.ColumnSpan="3"
+            PaintSurface="SKCanvasView_PaintSurface" />
 
         <Grid.RowDefinitions>
             <RowDefinition Height="50" />
