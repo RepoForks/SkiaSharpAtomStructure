@@ -95,6 +95,10 @@ namespace SkiaSharpAtomStructure
 
             skCanvas.Clear();
 
+            OnDrawSample(skCanvas, skCanvasHeight, skCanvasHeight);
+
+            return;;
+
             skCanvas.Translate((float)skCanvasWidth / 2, (float)skCanvasHeight / 2);
 
             using (SKPaint paintCenter = new SKPaint())
@@ -124,7 +128,7 @@ namespace SkiaSharpAtomStructure
             float orbitAngleDegree = 180 / (float)_movingElectronObjects.Count;
             for (int i = 0; i < _movingElectronObjects.Count; i++)
             {
-                
+
                 //SKRect rectStaticElectronOrbit = new SKRect();
                 //rectStaticElectronOrbit.Size = new SKSize((_movingElectronObjects[i].OrbitRectWidth * 2), (_movingElectronObjects[i].OrbitRectHeight * 2));
                 //rectStaticElectronOrbit.Location = new SKPoint(-(_movingElectronObjects[i].OrbitRectWidth * 2 / 2), -(_movingElectronObjects[i].OrbitRectHeight * 2 / 2));
@@ -146,11 +150,17 @@ namespace SkiaSharpAtomStructure
                 SKPaint paintElectron = new SKPaint()
                 {
                     Style = SKPaintStyle.Stroke,
-                    Color = SKColors.Black,
                     IsAntialias = true,
                     StrokeCap = SKStrokeCap.Round,
-                    StrokeWidth = 15,
+                    StrokeWidth = 10,
                 };
+
+                using (var shader = SKShader.CreateLinearGradient(
+                    new SKPoint(0, 0),
+                    new SKPoint(0, orbitAngleDegree), colors, null, SKShaderTileMode.Clamp))
+                {
+                    paintElectron.Shader = shader;
+                }
 
                 SKRect paintMovingElectronOrbit = new SKRect();
                 paintMovingElectronOrbit.Size = new SKSize((_movingElectronObjects[i].OrbitRectWidth * 2), (_movingElectronObjects[i].OrbitRectHeight * 2));
@@ -177,6 +187,48 @@ namespace SkiaSharpAtomStructure
                     skCanvas.RotateDegrees((float)orbitAngleDegree + 180);
                 }
             }
+        }
+
+        protected void OnDrawSample(SKCanvas canvas, int width, int height)
+        {
+            var colors = new[] { SKColors.Black, SKColors.White };
+            var center = new SKPoint(width / 2f, height / 2f);
+
+            using (var shader = SKShader.CreateSweepGradient(center, colors, null))
+            using (var paint = new SKPaint())
+            {
+                paint.Style = SKPaintStyle.Stroke;
+                paint.IsStroke = true;
+                paint.Shader = shader;
+                canvas.DrawPaint(paint);
+            }
+
+            //http://chiuki.github.io/android-shaders-filters/#/5
+
+            //// Center and Scale the Surface
+            //var scale = (width < height ? width : height) / (240f);
+            //canvas.Translate(width / 2f, height / 2f);
+            //canvas.Scale(scale, scale);
+            //canvas.Translate(-128, -128);
+
+            //using (var paint = new SKPaint())
+            //{
+            //    paint.IsAntialias = true;
+            //    using (var shader = SKShader.CreateTwoPointConicalGradient(
+            //        new SKPoint(115.2f, 102.4f),
+            //        25.6f,
+            //        new SKPoint(102.4f, 102.4f),
+            //        128.0f,
+            //        new[] { ltColor, dkColor },
+            //        null,
+            //        SKShaderTileMode.Clamp
+            //    ))
+            //    {
+            //        paint.Shader = shader;
+
+            //        canvas.DrawOval(new SKRect(51.2f, 51.2f, 204.8f, 204.8f), paint);
+            //    }
+            //}
         }
 
 
