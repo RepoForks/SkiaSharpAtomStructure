@@ -37,5 +37,10 @@ namespace SkiaSharpAtomStructure
         {
             Navigation.PushAsync(new AtomAnimatedPage());
         }
+
+        private void AtomAnimatedUnevnOrbitsPageButton_Clicked(object sender, EventArgs e)
+        {
+            Navigation.PushAsync(new AtomAnimatedUnevnOrbitsPage());
+        }
     }
 }

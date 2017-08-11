@@ -1,11 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage
-    x:Class="SkiaSharpAtomStructure.AtomSilhouettePage"
-    xmlns="http://xamarin.com/schemas/2014/forms"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:skia="clr-namespace:SkiaSharp.Views.Forms;assembly=SkiaSharp.Views.Forms"
-    Title="Atom Silhouette"
-    NavigationPage.HasNavigationBar="True">
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SkiaSharpAtomStructure.AtomAnimatedUnevnOrbitsPage"
+             xmlns:skia="clr-namespace:SkiaSharp.Views.Forms;assembly=SkiaSharp.Views.Forms"
+             Title="Atom Animated Uneven Orbits"
+             NavigationPage.HasNavigationBar="True">
 
     <Grid>
 
@@ -43,7 +42,9 @@
             Grid.Row="1"
             Grid.Column="0"
             Grid.ColumnSpan="3"
-            PaintSurface="SKCanvasView_PaintSurface" />
+            EnableTouchEvents="True"
+            PaintSurface="SKCanvasView_PaintSurface"
+            Touch="CanvasView_Touch" />
 
         <Grid.RowDefinitions>
             <RowDefinition Height="60" />
@@ -55,5 +56,4 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
     </Grid>
-
 </ContentPage>
