@@ -37,8 +37,9 @@ namespace SkiaSharpAtomStructure
 
             for (int i = 0; i < ElectronsCount; i++) //rand.Next(1, 50)
             {
-                var arcRectWidth = rand.Next(230, 350); 
-                var arcRectHeight = 100;
+                //var arcRectWidth = rand.Next(230, 350); // ios
+                var arcRectWidth = rand.Next(230, 500); // android
+                var arcRectHeight = 120;
 
                 _movingElectronObjects.Add(new MovingElectronObjectWithOrbit()
                 {
@@ -94,11 +95,7 @@ namespace SkiaSharpAtomStructure
             var skCanvasHeight = skImageInfo.Height;
 
             skCanvas.Clear();
-
-            OnDrawSample(skCanvas, skCanvasHeight, skCanvasHeight);
-
-            return;;
-
+            
             skCanvas.Translate((float)skCanvasWidth / 2, (float)skCanvasHeight / 2);
 
             using (SKPaint paintCenter = new SKPaint())
@@ -123,30 +120,10 @@ namespace SkiaSharpAtomStructure
             {
                 paintStaticElectronOrbit.Shader = shader;
             }
-
-            Random rand = new Random();
+            
             float orbitAngleDegree = 180 / (float)_movingElectronObjects.Count;
             for (int i = 0; i < _movingElectronObjects.Count; i++)
             {
-
-                //SKRect rectStaticElectronOrbit = new SKRect();
-                //rectStaticElectronOrbit.Size = new SKSize((_movingElectronObjects[i].OrbitRectWidth * 2), (_movingElectronObjects[i].OrbitRectHeight * 2));
-                //rectStaticElectronOrbit.Location = new SKPoint(-(_movingElectronObjects[i].OrbitRectWidth * 2 / 2), -(_movingElectronObjects[i].OrbitRectHeight * 2 / 2));
-
-                //float electronOrbitDrawStartPoint = 0;
-
-                //var _orbitSweepAngle = 0 * _movingElectronObjects[i].TimeAtPointInOrbit + 360 * (1 - _movingElectronObjects[i].TimeAtPointInOrbit);
-                //electronOrbitDrawStartPoint = _orbitSweepAngle;
-
-                //float electronOrbitDrawSize = 360; // (75 / 100) * 360
-
-                //SKPath pathElectronOrbit = new SKPath();
-                //pathElectronOrbit.AddArc(rectStaticElectronOrbit, electronOrbitDrawStartPoint, electronOrbitDrawSize);
-                //skCanvas.DrawPath(pathElectronOrbit, paintStaticElectronOrbit);
-
-
-                //skCanvas.DrawOval(0, 0, _movingElectronObjects[i].OrbitRectWidth, _movingElectronObjects[i].OrbitRectHeight, paintStaticElectronOrbit);
-                
                 SKPaint paintElectron = new SKPaint()
                 {
                     Style = SKPaintStyle.Stroke,
@@ -188,50 +165,6 @@ namespace SkiaSharpAtomStructure
                 }
             }
         }
-
-        protected void OnDrawSample(SKCanvas canvas, int width, int height)
-        {
-            var colors = new[] { SKColors.Black, SKColors.White };
-            var center = new SKPoint(width / 2f, height / 2f);
-
-            using (var shader = SKShader.CreateSweepGradient(center, colors, null))
-            using (var paint = new SKPaint())
-            {
-                paint.Style = SKPaintStyle.Stroke;
-                paint.IsStroke = true;
-                paint.Shader = shader;
-                canvas.DrawPaint(paint);
-            }
-
-            //http://chiuki.github.io/android-shaders-filters/#/5
-
-            //// Center and Scale the Surface
-            //var scale = (width < height ? width : height) / (240f);
-            //canvas.Translate(width / 2f, height / 2f);
-            //canvas.Scale(scale, scale);
-            //canvas.Translate(-128, -128);
-
-            //using (var paint = new SKPaint())
-            //{
-            //    paint.IsAntialias = true;
-            //    using (var shader = SKShader.CreateTwoPointConicalGradient(
-            //        new SKPoint(115.2f, 102.4f),
-            //        25.6f,
-            //        new SKPoint(102.4f, 102.4f),
-            //        128.0f,
-            //        new[] { ltColor, dkColor },
-            //        null,
-            //        SKShaderTileMode.Clamp
-            //    ))
-            //    {
-            //        paint.Shader = shader;
-
-            //        canvas.DrawOval(new SKRect(51.2f, 51.2f, 204.8f, 204.8f), paint);
-            //    }
-            //}
-        }
-
-
 
         private SKPoint _lastTouchPoint = new SKPoint();
         private async void CanvasView_Touch(object sender, SkiaSharp.Views.Forms.SKTouchEventArgs e)

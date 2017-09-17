@@ -55,8 +55,8 @@ namespace SkiaSharpAtomStructure
             float orbitAngleDegree = 180 / (float)ElectronsCount;
             for (double degrees = 0; degrees < (180); degrees += orbitAngleDegree)
             {
-                var arcRectWidth = 350;
-                var arcRectHeight = 100;
+                var arcRectWidth = skCanvasWidth / 2.2f; //350
+                var arcRectHeight = skCanvasHeight / 11.3f; //100
 
                 skCanvas.DrawOval(0, 0, arcRectWidth, arcRectHeight, paintOrbit);
 
